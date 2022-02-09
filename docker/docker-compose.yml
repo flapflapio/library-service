@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:latest
+    container_name: library-service-postgres
+    networks:
+      - main
+    ports:
+      - 5432:5432
+    volumes:
+      - ${POSTGRES_VOLUME:-./volumes/data}:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "altruwe"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_DB: library-service
+      POSTGRES_USER: library-service
+      POSTGRES_PASSWORD: password
+
+networks:
+  main:
+    name: library-service-network
