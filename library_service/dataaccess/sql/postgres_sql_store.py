@@ -36,7 +36,8 @@ class PostgresStore:
     session_maker: sessionmaker
 
     def __init__(self, user, password, host, port, database) -> None:
-        self.engine = create_engine(PostgresStore.SQLALCHEMY_DATABASE_URL)
+        connection_string= "postgresql://"+user+":"+password+"@"+host+":"+port+"/"+database
+        self.engine = create_engine(PostgresStore.connection_string)
         self.session_maker = sessionmaker(bind=self.engine)
         Base.metadata.create_all(self.engine)
 
@@ -57,3 +58,4 @@ class PostgresStore:
         q = session.query(File).filter_by(user=user, filename=file).first()
         session.close()
         return q
+        
