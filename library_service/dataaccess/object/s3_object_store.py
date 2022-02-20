@@ -1,3 +1,4 @@
+from pickle import TRUE
 import boto3
 
 
@@ -14,15 +15,25 @@ class S3Store:
             aws_access_key_id=AWS_access_key_id,
             aws_secret_access_key=AWS_secret_access_key,
         )
-
+        
     def uploading_files(self, filename, key_name):
         return self.client.upload_file(filename, self.Bucket, key_name)
-
+                
     def downloading_files(self, keyname, onstoragename):
-        return self.client.download_file(self.Bucket, keyname, onstoragename)
+        response = self.client.list_objects(Bucket=self.Bucket)
+        for x in response["Contents"]:
+            if x['Key'] == keyname:
+                self.client.download_file(self.Bucket, keyname, onstoragename)
+                return True
+        return False
 
     def deleting_files(self, keyname):
-        return self.client.delete_object(Bucket=self.Bucket, Key=keyname)
+        response = self.client.list_objects(Bucket=self.Bucket)
+        for x in response["Contents"]:
+            if x['Key'] == keyname:
+                self.client.delete_object(Bucket=self.Bucket, Key=keyname)
+                return True
+        return False
 
 
 

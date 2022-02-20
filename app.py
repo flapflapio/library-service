@@ -14,13 +14,13 @@ def main() -> None:
 
     s3Store = S3Store(Region_name, AWS_access_key_id, AWS_secret_access_key, Bucket)
 
-    response = s3Store.uploading_files("sample.json", "examplle123.json")
+    response = s3Store.uploading_files("sample.json", "ethan1.json")
     print(response)
 
-    response = s3Store.downloading_files("examplle123.json", "ondrive.json")
+    response = s3Store.downloading_files("ethan1.json", "ondrive.json")
     print(response)
 
-    response = s3Store.deleting_files("examplle123.json")
+    response = s3Store.deleting_files("ethan1.json")
     print(response)
 
 
