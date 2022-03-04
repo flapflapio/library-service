@@ -1,10 +1,10 @@
-
 from typing import Optional
 from sqlalchemy import Column, String, create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, sessionmaker
 import yaml
+
 Base = declarative_base()
 
 
@@ -35,9 +35,16 @@ class PostgresStore:
     engine: Engine
     session_maker: sessionmaker
 
-    def __init__(self, user = "library-service", password= "password", host="localhost", port="5432", database="library-service") -> None:
+    def __init__(
+        self,
+        user="library-service",
+        password="password",
+        host="localhost",
+        port="5432",
+        database="library-service",
+    ) -> None:
         connection_string = f"postgresql://{user}:{password}@{host}:{port}/{database}"
-        self.engine = create_engine(PostgresStore.connection_string)
+        self.engine = create_engine(connection_string)
         self.session_maker = sessionmaker(bind=self.engine)
         Base.metadata.create_all(self.engine)
 
@@ -48,11 +55,16 @@ class PostgresStore:
             session.add(f)
             session.commit()
         session.close()
-    
-    def save_files(self, user:str, files: *args):
+
+    def save_files(self, user: str, *files: str):
         session: Session = self.session_maker()
         for file in files:
-            if session.query(File).filter_by(user=user).filter_by(file=file).first() is None:
+            if (
+                session.query(File)
+                # .filter_by(user=user)
+                .filter_by(user=user, filename=file).first()
+                is None
+            ):
                 f = File(user=user, filename=file)
                 session.add(f)
         session.commit()
@@ -69,8 +81,8 @@ class PostgresStore:
         return q
 
     @staticmethod
-    def from_file(file:str)->'PostgresStore':
+    def from_file(file: str) -> "PostgresStore":
         with open(file, "r") as f:
-            config=yaml.safe_load(f)
-            postgres_store= config[0]["postgres"] 
+            config = yaml.safe_load(f)
+            postgres_store = config[0]["postgres"]
         return postgres_store

@@ -13,6 +13,7 @@ def demo_db() -> None:
     """A demo of how to utilize the database"""
     pgstore = PostgresStore()
     pgstore.save_file("jeff1", "somefile1.txt")
+    pgstore.save_files("jeff1", "somefile1.txt", "file2.text")
     f = pgstore.load_file("jeff", "somefile.txt")
     print(f)
 

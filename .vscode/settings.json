@@ -15,6 +15,16 @@
       "database": "library-service",
       "username": "library-service",
       "password": "password"
+    },
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "askForPassword": true,
+      "driver": "PostgreSQL",
+      "name": "library-service",
+      "database": "library-service",
+      "username": "library-service"
     }
   ]
   // "python.languageServer": "Jedi"
