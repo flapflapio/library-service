@@ -8,7 +8,6 @@ import yaml
 Base = declarative_base()
 
 
-# Demo of how to create data sqlalchemy data model
 class File(Base):
     __tablename__ = "Files"
 
