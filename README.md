@@ -16,6 +16,15 @@ manage the virtual environment associated with your project. If you are using
 vscode, remember that you need to point vscode to the virtual environment
 associated installed by poetry (see below).
 
+## Operating Postgres
+
+For development, there is a docker-compose file included for running postgres:
+
+```bash
+cd docker/
+docker-compose up -d
+```
+
 ## Using Poetry
 
 This project uses [poetry](https://github.com/python-poetry/poetry) for

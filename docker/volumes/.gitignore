@@ -1,0 +1,7 @@
+# This directory contains docker volumes that are used for local development
+
+# Ignore everything in this folder...
+*
+
+# ... except this gitignore file
+!.gitignore
